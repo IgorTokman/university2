@@ -191,10 +191,36 @@ composer exec codecept run functional,unit -- --coverage-html --coverage-xml
 
 You can see code coverage output under the `tests/_output` directory.
 
-Database dump
+Installation
 -------
 
+The most straightforward way to get started with Yii2 is to use the basic application template provided by the Yii2 team. This template is also available through the Composer tool.
 
+Step 1 − Find a suitable directory in your hard drive and download the Composer PHAR (PHP archive) via the following command.
+
+curl -sS https://getcomposer.org/installer | php
+
+Step 2 − Then move this archive to the bin directory.
+
+mv composer.phar /usr/local/bin/composer
+
+Step 3 − With the Composer installed, you can install Yii2 basic application template. Run these commands.
+
+composer global require "fxp/composer-asset-plugin:~1.1.1"
+composer create-project --prefer-dist yiisoft/yii2-app-basic helloworld
+
+The first command installs the composer asset plugin, which manages npm and bower dependencies. The second command installs Yii2 basic application template in a directory called helloworld.
+
+Step 4 − Now open the helloworld directory and launch the web server built into PHP.
+
+php -S localhost:8080 -t web
+
+Step 5 − Then open http://localhost:8080 in your browser. You can see the welcome page.
+
+
+
+Database dump
+-------
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;

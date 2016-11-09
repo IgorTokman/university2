@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\behaviors\ManyToManyBehavior;
 use Yii;
 
 /**
@@ -17,6 +18,26 @@ use Yii;
  */
 class Students extends \yii\db\ActiveRecord
 {
+
+    public $courses = [];
+
+    public function behaviors() {
+        return [
+            [
+                'class' => ManyToManyBehavior::className(),
+                'relations' => [
+                    [
+                        'editableAttribute' => 'courses', // Editable attribute name
+                        'table' => 'students_has_courses', // Name of the junction table
+                        'ownAttribute' => 'students_idstudents', // Name of the column in junction table that represents current model
+                        'relatedModel' => Courses::className(), // Related model class
+                        'relatedAttribute' => 'courses_idcourses', // Name of the column in junction table that represents related model
+                    ],
+                ],
+            ],
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -31,7 +52,7 @@ class Students extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'address', 'phone'], 'required'],
+            [['name', 'address', 'phone', 'courses'], 'required'],
             [['name', 'address'], 'string', 'max' => 255],
             [['phone'], 'string', 'max' => 25],
         ];
@@ -44,6 +65,7 @@ class Students extends \yii\db\ActiveRecord
     {
         return [
             'idstudents' => 'Idstudents',
+            'courses' => 'Courses',
             'name' => 'Name',
             'address' => 'Address',
             'phone' => 'Phone',
