@@ -190,3 +190,169 @@ composer exec codecept run functional,unit -- --coverage-html --coverage-xml
 ```
 
 You can see code coverage output under the `tests/_output` directory.
+
+Installation
+-------
+
+The most straightforward way to get started with Yii2 is to use the basic application template provided by the Yii2 team. This template is also available through the Composer tool.
+
+Step 1 − Find a suitable directory in your hard drive and download the Composer PHAR (PHP archive) via the following command.
+
+curl -sS https://getcomposer.org/installer | php
+
+Step 2 − Then move this archive to the bin directory.
+
+mv composer.phar /usr/local/bin/composer
+
+Step 3 − With the Composer installed, you can install Yii2 basic application template. Run these commands.
+
+composer global require "fxp/composer-asset-plugin:~1.1.1"
+composer create-project --prefer-dist yiisoft/yii2-app-basic helloworld
+
+The first command installs the composer asset plugin, which manages npm and bower dependencies. The second command installs Yii2 basic application template in a directory called helloworld.
+
+Step 4 − Now open the helloworld directory and launch the web server built into PHP.
+
+php -S localhost:8080 -t web
+
+Step 5 − Then open http://localhost:8080 in your browser. You can see the welcome page.
+
+
+
+Database dump
+-------
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Schema university
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `university2` DEFAULT CHARACTER SET utf8 ;
+USE `university2` ;
+
+-- -----------------------------------------------------
+-- Table `university`.`students`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `university2`.`students` (
+  `idstudents` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `address` VARCHAR(255) NOT NULL,
+  `phone` VARCHAR(25) NOT NULL,
+  PRIMARY KEY (`idstudents`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `university`.`courses`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `university2`.`courses` (
+  `idcourses` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(255) NOT NULL,
+  `start_date` TIMESTAMP NUll DEFAULT CURRENT_TIMESTAMP,
+  `end_date` TIMESTAMP NULL,
+  PRIMARY KEY (`idcourses`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `university`.`users`
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `university2`.`users` (
+  `idusers` INT NOT NULL AUTO_INCREMENT,
+  `full_name` VARCHAR(255) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `auth_key` VARCHAR(45) NOT NULL,
+  `username` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `created_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idusers`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `university`.`students_has_courses`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `university2`.`students_has_courses` (
+  `students_idstudents` INT NOT NULL,
+  `courses_idcourses` INT NOT NULL,
+  PRIMARY KEY (`students_idstudents`, `courses_idcourses`),
+  INDEX `fk_students_has_courses_courses1_idx` (`courses_idcourses` ASC),
+  INDEX `fk_students_has_courses_students_idx` (`students_idstudents` ASC),
+  CONSTRAINT `fk_students_has_courses_students`
+    FOREIGN KEY (`students_idstudents`)
+    REFERENCES `university2`.`students` (`idstudents`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_students_has_courses_courses1`
+    FOREIGN KEY (`courses_idcourses`)
+    REFERENCES `university2`.`courses` (`idcourses`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+
+--
+-- Dumping data for table `courses`
+--
+
+INSERT INTO `courses` (`idcourses`, `title`) VALUES
+(1, 'Math'),
+(2, 'Programming'),
+(3, 'Training'),
+(4, 'English'),
+(5, 'Tech'),
+(6, 'Test Automation'),
+(7, 'QA'),
+(8, 'Web technology'),
+(9, 'Java'),
+(10, 'PHP'),
+(11, 'Mobile development');
+
+-- --------------------------------------------------------
+
+
+--
+-- Dumping data for table `students`
+--
+
+INSERT INTO `students` (`idstudents`, `name`, `address`, `phone`) VALUES
+(1, 'Ivan Ivanov', 'AAAA1', '256789004'),
+(2, 'Igor Petrov', 'BBBB8', '123456789'),
+(3, 'Mary Smirnova', 'ZZZZ1', '392456700'),
+(4, 'Anna Johnson', 'PPPP9', '948329040');
+
+-- --------------------------------------------------------
+
+
+--
+-- Dumping data for table `students_has_courses`
+--
+
+INSERT INTO `students_has_courses` (`students_idstudents`, `courses_idcourses`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(1, 6),
+(1, 7),
+(1, 8),
+(1, 9),
+(1, 10),
+(1, 11),
+(2, 1),
+(2, 2),
+(2, 3),
+(3, 1),
+(3, 2),
+(3, 3),
+(4, 1),
+(4, 2);
