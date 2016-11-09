@@ -8,7 +8,7 @@ use yii\widgets\LinkPager;
         <a href="index.php?r=courses/create" class="btn btn-primary pull-right">Create</a>
     </h1>
 
-<?php if(null !== Yii::$app->session->getFlash('success')):?>
+<?php if(!is_null(Yii::$app->session->getFlash('success'))):?>
     <div class="alert alert-success"><?=Yii::$app->session->getFlash('success')?></div>
 <?php endif;?>
 
